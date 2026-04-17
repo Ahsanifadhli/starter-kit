@@ -1,50 +1,104 @@
 @extends('layouts.contentNavbarLayout')
 
-{{-- Judul ini akan muncul di navbar atas Anda --}}
 @section('title', 'Management Product')
 
 @section('content')
 
+<style>
+  /* Kustomisasi warna oranye untuk tombol Solid */
+  .btn-orange {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    color: #ffffff !important;
+  }
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112 !important;
+    border-color: #d66a10 !important;
+    color: #ffffff !important;
+  }
+
+  /* Kustomisasi warna oranye untuk tombol Outline (Garis Luar) / Toggle Menu */
+  .btn-outline-orange {
+    color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    background-color: transparent !important;
+  }
+  .btn-outline-orange:hover,
+  .btn-outline-orange.active,
+  .btn-outline-orange:active,
+  .btn-outline-orange:focus {
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Kustomisasi warna untuk Pagination */
+  .pagination .page-link {
+    color: #fd7e14 !important;
+  }
+  .pagination .page-link:hover {
+    color: #e37112 !important;
+    background-color: #fff3e6 !important;
+    border-color: #dee2e6 !important;
+  }
+  .pagination .page-item.active .page-link {
+    z-index: 3 !important;
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a !important;
+  }
+</style>
+
   <div class="card">
 
-    <!-- ===== Tombol Aksi (Action Bar) ===== -->
-    <div class="card-header d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
 
       {{-- Search and filter --}}
-      <div>
-        <input type="text" id="searchProduct" class="form-control" placeholder="Search product name..." />
+      <div class="w-100" style="max-width: 300px;">
+        <input type="search" id="searchProduct" class="form-control" placeholder="Search product name..." />
       </div>
 
-      {{-- Tombol Tampilan Grid/List --}}
-      <div class="btn-group mb-2 mb-md-0" role="group" aria-label="View Toggle">
-        <button type="button" class="btn btn-outline-primary active"><i class="ri-list-check ri-20px"></i></button>
-        <button type="button" class="btn btn-outline-primary"><i class="ri-layout-grid-fill ri-20px"></i></button>
-      </div>
+      {{-- Wrapper Kanan untuk Toggle, Sort, dan Add --}}
+      <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2 justify-content-md-end">
 
-      {{-- Tombol Sortir dan Tambah Produk --}}
-      <div class="d-flex">
-        <div class="dropdown me-2">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownSort"
+        {{-- Tombol Tampilan Grid/List (Menggunakan btn-outline-orange) --}}
+        {{-- <div class="btn-group" role="group" aria-label="View Toggle">
+          <button type="button" class="btn btn-outline-orange active"><i class="ri-list-check ri-20px"></i></button>
+          <button type="button" class="btn btn-outline-orange"><i class="ri-layout-grid-fill ri-20px"></i></button>
+        </div> --}}
+
+        {{-- Tombol Sortir --}}
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start text-sm-center" type="button" id="dropdownSort"
             data-bs-toggle="dropdown" aria-expanded="false">
             <i class="ri-filter-3-line me-1"></i> Sort
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownSort">
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownSort">
             <li><a class="dropdown-item" href="javascript:void(0);">Name (A-Z)</a></li>
             <li><a class="dropdown-item" href="javascript:void(0);">Price (Low to High)</a></li>
             <li><a class="dropdown-item" href="javascript:void(0);">Stock (Low to High)</a></li>
           </ul>
         </div>
-        {{-- Tombol Pemicu Modal "Add Product" --}}
-        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addProductModal">
+
+        {{-- Tombol Pemicu Modal "Add Product" (Menggunakan btn-orange) --}}
+        <button class="btn btn-orange text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#addProductModal">
           <i class="ri-add-line me-1"></i> Add Product
         </button>
-      </div>
 
+      </div>
     </div>
 
-    <!-- ===== Tabel Produk ===== -->
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover">
+      <table class="table table-hover mb-0">
         <thead>
           <tr>
             <th>Name</th>
@@ -58,7 +112,6 @@
       </table>
     </div>
 
-    <!-- ===== Paginasi ===== -->
     <div class="card-footer d-flex justify-content-center">
       <nav aria-label="Page navigation">
         <ul class="pagination mb-0" id="productPagination">
@@ -70,9 +123,6 @@
   </div>
 
 
-  <!-- ===== MODALS ===== -->
-
-  <!-- 1. Modal Tambah Produk (Add Product) -->
   <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -83,26 +133,24 @@
         <div class="modal-body">
           <form id="addProductForm">
             <div class="mb-3">
-              <label for="addProductName" class="form-label">Product Name</label>
+              <label for="addProductName" class="form-label">Product Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="addProductName" placeholder="e.g., Chiffon Uk 20" required>
             </div>
 
             <div class="mb-3">
-              <label for="addProductPrice" class="form-label">Price</label>
+              <label for="addProductPrice" class="form-label">Price <span class="text-danger">*</span></label>
               <input type="number" class="form-control" id="addProductPrice" placeholder="e.g., 20000" required>
             </div>
-
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+          <button type="button" class="btn btn-orange" id="saveProductBtn">Save Product</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. Modal Edit Produk (Edit Product) -->
   <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -114,26 +162,24 @@
           <form id="editProductForm">
             <input type="hidden" id="editProductId">
             <div class="mb-3">
-              <label for="editProductName" class="form-label">Product Name</label>
+              <label for="editProductName" class="form-label">Product Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="editProductName" placeholder="e.g., Chiffon Uk 20" required>
             </div>
 
             <div class="mb-3">
-              <label for="editProductPrice" class="form-label">Price</label>
+              <label for="editProductPrice" class="form-label">Price <span class="text-danger">*</span></label>
               <input type="number" class="form-control" id="editProductPrice" placeholder="e.g., 20000" required>
             </div>
-
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveEditProductBtn">Save Changes</button>
+          <button type="button" class="btn btn-orange" id="saveEditProductBtn">Save Changes</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3. Modal Hapus Produk (Delete Product) -->
   <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -143,8 +189,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to delete this product?</p>
-          <p>This action cannot be undone.</p>
+          <p class="mb-0">Are you sure you want to delete this product? This action cannot be undone.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -217,11 +262,11 @@
           <td>${Number(p.price).toLocaleString()}</td>
           <td>
             <div class="d-flex">
-              <a class="btn btn-sm btn-icon btn-outline-primary me-2" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-orange me-2" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#editProductModal" onclick="loadEditProduct(${p.id})">
                 <i class="ri-pencil-line"></i>
               </a>
-              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#deleteProductModal" onclick="prepareDeleteProduct(${p.id})">
                 <i class="ri-delete-bin-line"></i>
               </a>

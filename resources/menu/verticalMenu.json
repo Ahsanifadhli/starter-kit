@@ -3,8 +3,8 @@
     {
       "url": "/admin",
       "name": "Dashboard",
-      "icon": "menu-icon tf-icons ri-home-smile-line",
-      "slug": "pages-home"
+      "icon": "menu-icon tf-icons ri-dashboard-line",
+      "slug": "admin.dashboard"
     },
     {
       "menuHeader": "Cabang"
@@ -12,14 +12,14 @@
     {
       "url": "/admin/users",
       "name": "User",
-      "icon": "menu-icon tf-icons ri-store-2-line",
-      "slug": "branch.dashboard"
+      "icon": "menu-icon tf-icons ri-user-3-line",
+      "slug": "admin.users"
     },
     {
       "url": "/admin/branches",
       "name": "Cabang",
       "icon": "menu-icon tf-icons ri-store-2-line",
-      "slug": "branch.dashboard"
+      "slug": "admin.branches"
     },
     {
       "menuHeader": "Master Data"
@@ -27,15 +27,14 @@
     {
       "url": "/admin/products",
       "name": "Produk",
-      "icon": "menu-icon tf-icons ri-store-2-line",
-      "slug": "branch.dashboard"
+      "icon": "menu-icon tf-icons ri-shopping-bag-3-line",
+      "slug": "admin.products"
     },
     {
       "url": "/admin/expenses",
       "name": "Pengeluaran",
-      "icon": "menu-icon tf-icons ri-store-2-line",
-      "slug": "branch.dashboard"
+      "icon": "menu-icon tf-icons ri-wallet-3-line",
+      "slug": "admin.expenses"
     }
-    
   ]
 }

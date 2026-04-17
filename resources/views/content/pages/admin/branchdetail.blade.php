@@ -3,6 +3,50 @@
 @section('title', 'Branch Detail')
 
 @section('content')
+<style>
+
+  .btn-orange {
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+    color: #fff;
+  }
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112;
+    border-color: #d66a10;
+    color: #fff;
+  }
+
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Mengubah warna teks dan border saat kondisi normal/hover */
+  .pagination .page-link {
+    color: #fd7e14; /* Teks angka menjadi oranye */
+  }
+
+  .pagination .page-link:hover {
+    color: #e37112; /* Teks sedikit lebih gelap saat di-hover */
+    background-color: #fff3e6; /* Latar belakang oranye sangat pudar saat hover */
+    border-color: #dee2e6; /* Mempertahankan border standar */
+  }
+
+  /* Mengubah warna latar dan border saat halaman aktif (terpilih) */
+  .pagination .page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+  }
+
+  /* Mengubah warna untuk tombol Prev/Next yang disable (opsional, agar serasi) */
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a; /* Oranye pudar */
+  }
+</style>
 
 <div class="card">
   <div class="card-body">
@@ -10,7 +54,7 @@
       <h4 id="branchName">Loading branch...</h4>
       <div class="small text-muted" id="branchMeta"></div>
     </div>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <div class="row">
       <div class="col-12 mb-3">
         <div class="d-flex align-items-center">
@@ -18,8 +62,13 @@
           <input type="text" id="expenseSearch" class="form-control me-2" placeholder="Search expense name" />
           <input type="date" id="startDate" class="form-control me-2" />
           <input type="date" id="endDate" class="form-control me-2" />
-          <button class="btn btn-primary me-2" id="searchBothBtn">Search</button>
-          <button class="btn btn-secondary" id="resetBtn">Reset</button>
+          <button class="btn btn-orange me-2" id="searchBothBtn">
+            <i class="bi bi-search"></i>
+          </button>
+
+          <button class="btn btn-orange" id="resetBtn">
+            <i class="bi bi-arrow-counterclockwise"></i>
+          </button>
         </div>
       </div>
 
@@ -72,7 +121,7 @@
     </div>
 
     <div class="mt-4">
-      <a id="generateLabaRugiBtn" class="btn btn-success" href="#">Generate Laba Rugi</a>
+      <a id="generateLabaRugiBtn" class="btn btn-orange" href="#">Generate Laba Rugi</a>
     </div>
 
   </div>

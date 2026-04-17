@@ -1,4 +1,43 @@
 @extends('layouts.contentNavbarLayout')
+<style>
+  /* Tambahkan !important agar tidak ditimpa oleh template bawaan */
+  .btn-orange {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    color: #ffffff !important;
+  }
+
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112 !important;
+    border-color: #d66a10 !important;
+    color: #ffffff !important;
+  }
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Kustomisasi warna untuk Pagination */
+  .pagination .page-link {
+    color: #fd7e14 !important;
+  }
+  .pagination .page-link:hover {
+    color: #e37112 !important;
+    background-color: #fff3e6 !important;
+    border-color: #dee2e6 !important;
+  }
+  .pagination .page-item.active .page-link {
+    z-index: 3 !important;
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a !important;
+  }
+</style>
 
 {{-- Judul ini akan muncul di navbar atas Anda --}}
 @section('title', 'Management Branch')
@@ -7,27 +46,24 @@
 
   <div class="card">
 
-    <!-- ===== Tombol Aksi (Action Bar) ===== -->
-    <div class="card-header d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="card-header d-flex flex-column-reverse flex-md-row align-items-md-center justify-content-between gap-3">
 
-      {{-- Search and filter --}}
-      <div>
-        <input type="text" id="searchBranch" class="form-control" placeholder="Search branch name..." />
+      {{-- Search --}}
+      <div class="w-100" style="max-width: 300px;">
+        <input type="search" id="searchBranch" class="form-control" placeholder="Search branch name..." />
       </div>
 
-      {{-- Tombol Sortir dan Tambah Produk --}}
-      <div class="d-flex">
-        {{-- Tombol Pemicu Modal "Add Branch" --}}
-        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addBranchModal">
+      {{-- Tombol Tambah Branch --}}
+      <div class="d-flex justify-content-md-end">
+        <button class="btn btn-orange text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#addBranchModal">
           <i class="ri-add-line me-1"></i> Add Branch
         </button>
       </div>
 
     </div>
 
-    <!-- ===== Tabel Branch ===== -->
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover">
+      <table class="table table-hover mb-0">
         <thead>
           <tr>
             <th>Name</th>
@@ -40,7 +76,6 @@
       </table>
     </div>
 
-    <!-- ===== Paginasi ===== -->
     <div class="card-footer d-flex justify-content-center">
       <nav aria-label="Page navigation">
         <ul class="pagination mb-0" id="paginationList">
@@ -52,9 +87,6 @@
   </div>
 
 
-  <!-- ===== MODALS ===== -->
-
-  <!-- 1. Modal Tambah Branch (Add Branch) -->
   <div class="modal fade" id="addBranchModal" tabindex="-1" aria-labelledby="addBranchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -65,20 +97,19 @@
         <div class="modal-body">
           <form id="addBranchForm">
             <div class="mb-3">
-              <label for="addBranchName" class="form-label">Branch Name</label>
+              <label for="addBranchName" class="form-label">Branch Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="addBranchName" placeholder="e.g., Branch Wonosari" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveBranchBtn">Save Branch</button>
+          <button type="button" class="btn btn-orange" id="saveBranchBtn">Save Branch</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. Modal Edit Branch (Edit Branch) -->
   <div class="modal fade" id="editBranchModal" tabindex="-1" aria-labelledby="editBranchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -89,14 +120,14 @@
         <div class="modal-body">
           <form id="editBranchForm">
             <div class="mb-3">
-              <label for="editBranchName" class="form-label">Branch Name</label>
+              <label for="editBranchName" class="form-label">Branch Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="editBranchName" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveEditBranchBtn">Save Changes</button>
+          <button type="button" class="btn btn-orange" id="saveEditBranchBtn">Save Changes</button>
         </div>
       </div>
     </div>
@@ -146,7 +177,7 @@
           headers: authHeaders()
         });
         const data = await response.json();
-        
+
         renderBranchTable(data.data);
         renderPagination(data);
         currentPage = page;
@@ -172,7 +203,7 @@
           <td><strong>${branch.name}</strong></td>
           <td>
             <div class="d-flex">
-              <a class="btn btn-sm btn-icon btn-outline-primary me-2" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-primary me-2" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#editBranchModal" onclick="loadEditBranch(${branch.id}, '${branch.name}')">
                 <i class="ri-pencil-line"></i>
               </a>
@@ -224,7 +255,7 @@
     // Save new branch
     document.getElementById('saveBranchBtn').addEventListener('click', async function() {
       const name = document.getElementById('addBranchName').value.trim();
-      
+
       if (!name) {
         showAlert('Please enter a branch name', 'warning');
         return;
@@ -238,7 +269,7 @@
         });
 
         const data = await response.json();
-        
+
         if (response.ok) {
           showAlert(data.message || 'Branch created successfully', 'success');
           document.getElementById('addBranchForm').reset();
@@ -256,7 +287,7 @@
     // Save edited branch
     document.getElementById('saveEditBranchBtn').addEventListener('click', async function() {
       const name = document.getElementById('editBranchName').value.trim();
-      
+
       if (!name) {
         showAlert('Please enter a branch name', 'warning');
         return;
@@ -270,7 +301,7 @@
         });
 
         const data = await response.json();
-        
+
         if (response.ok) {
           showAlert(data.message || 'Branch updated successfully', 'success');
           bootstrap.Modal.getInstance(document.getElementById('editBranchModal')).hide();
@@ -314,7 +345,7 @@
     // Load branches on page load
     document.addEventListener('DOMContentLoaded', function() {
       fetchBranches(1);
-      
+
       // Wire search input
       let searchTimeout = null;
       document.getElementById('searchBranch').addEventListener('input', () => {

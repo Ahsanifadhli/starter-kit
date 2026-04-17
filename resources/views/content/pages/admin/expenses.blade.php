@@ -1,33 +1,84 @@
 @extends('layouts.contentNavbarLayout')
 
-{{-- Judul ini akan muncul di navbar atas Anda --}}
 @section('title', 'Management Expenses')
 
 @section('content')
 
+<style>
+  /* Kustomisasi warna oranye untuk tombol Solid */
+  .btn-orange {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    color: #ffffff !important;
+  }
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112 !important;
+    border-color: #d66a10 !important;
+    color: #ffffff !important;
+  }
+
+  /* Kustomisasi warna oranye untuk tombol Outline (Garis Luar) */
+  .btn-outline-orange {
+    color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    background-color: transparent !important;
+  }
+  .btn-outline-orange:hover,
+  .btn-outline-orange.active,
+  .btn-outline-orange:active,
+  .btn-outline-orange:focus {
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Kustomisasi warna untuk Pagination */
+  .pagination .page-link {
+    color: #fd7e14 !important;
+  }
+  .pagination .page-link:hover {
+    color: #e37112 !important;
+    background-color: #fff3e6 !important;
+    border-color: #dee2e6 !important;
+  }
+  .pagination .page-item.active .page-link {
+    z-index: 3 !important;
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a !important;
+  }
+</style>
+
   <div class="card">
 
-    <!-- ===== Tombol Aksi (Action Bar) ===== -->
-    <div class="card-header d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="card-header d-flex flex-column-reverse flex-md-row align-items-md-center justify-content-between gap-3">
 
       {{-- Search and filter --}}
-      <div>
-        <input type="text" id="searchExpense" class="form-control" placeholder="Search expense name..." />
+      <div class="w-100" style="max-width: 300px;">
+        <input type="search" id="searchExpense" class="form-control" placeholder="Search expense name..." />
       </div>
 
       {{-- Tombol Tambah Expense --}}
-      <div class="d-flex">
-        {{-- Tombol Pemicu Modal "Add Expense" --}}
-        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+      <div class="d-flex justify-content-md-end">
+        {{-- Menggunakan btn-orange --}}
+        <button class="btn btn-orange text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
           <i class="ri-add-line me-1"></i> Add Expense
         </button>
       </div>
 
     </div>
 
-    <!-- ===== Tabel Expense ===== -->
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover">
+      <table class="table table-hover mb-0">
         <thead>
           <tr>
             <th>Name</th>
@@ -40,7 +91,6 @@
       </table>
     </div>
 
-    <!-- ===== Paginasi ===== -->
     <div class="card-footer d-flex justify-content-center">
       <nav aria-label="Page navigation">
         <ul class="pagination mb-0" id="expensePagination">
@@ -52,9 +102,6 @@
   </div>
 
 
-  <!-- ===== MODALS ===== -->
-
-  <!-- 1. Modal Tambah Expense (Add Expense) -->
   <div class="modal fade" id="addExpenseModal" tabindex="-1" aria-labelledby="addExpenseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -65,20 +112,19 @@
         <div class="modal-body">
           <form id="addExpenseForm">
             <div class="mb-3">
-              <label for="addExpenseName" class="form-label">Expense Name</label>
+              <label for="addExpenseName" class="form-label">Expense Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="addExpenseName" placeholder="e.g., Flour Purchase" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveExpenseBtn">Save Expense</button>
+          <button type="button" class="btn btn-orange" id="saveExpenseBtn">Save Expense</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. Modal Edit Expense (Edit Expense) -->
   <div class="modal fade" id="editExpenseModal" tabindex="-1" aria-labelledby="editExpenseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -89,20 +135,19 @@
         <div class="modal-body">
           <form id="editExpenseForm">
             <div class="mb-3">
-              <label for="editExpenseName" class="form-label">Expense Name</label>
+              <label for="editExpenseName" class="form-label">Expense Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="editExpenseName" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveEditExpenseBtn">Save Changes</button>
+          <button type="button" class="btn btn-orange" id="saveEditExpenseBtn">Save Changes</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3. Modal Delete Expense (Delete Expense) -->
   <div class="modal fade" id="deleteExpenseModal" tabindex="-1" aria-labelledby="deleteExpenseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
@@ -111,8 +156,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to delete this expense?</p>
-          <p>This action cannot be undone.</p>
+          <p class="mb-0">Are you sure you want to delete this expense? This action cannot be undone.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -161,12 +205,12 @@
         const search = document.getElementById('searchExpense').value.trim();
         let url = `${API_URL}/expenses?page=${page}`;
         if (search) url += `&search=${encodeURIComponent(search)}`;
-        
+
         const response = await fetch(url, {
           headers: authHeaders()
         });
         const data = await response.json();
-        
+
         renderExpenseTable(data.data);
         renderPagination(data);
         currentPage = page;
@@ -181,7 +225,7 @@
       const tbody = document.getElementById('expenseTableBody');
       tbody.innerHTML = '';
 
-      if (expenses.length === 0) {
+      if (!expenses || expenses.length === 0) {
         tbody.innerHTML = '<tr><td colspan="2" class="text-center">No expenses found</td></tr>';
         return;
       }
@@ -192,11 +236,11 @@
           <td><strong>${expense.name}</strong></td>
           <td>
             <div class="d-flex">
-              <a class="btn btn-sm btn-icon btn-outline-primary me-2" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-orange me-2" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#editExpenseModal" onclick="loadEditExpense(${expense.id})">
                 <i class="ri-pencil-line"></i>
               </a>
-              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#deleteExpenseModal" onclick="prepareDeleteExpense(${expense.id})">
                 <i class="ri-delete-bin-line"></i>
               </a>
@@ -256,7 +300,7 @@
     // Save new expense
     document.getElementById('saveExpenseBtn').addEventListener('click', async function() {
       const name = document.getElementById('addExpenseName').value.trim();
-      
+
       if (!name) {
         showAlert('Please enter an expense name', 'warning');
         return;
@@ -270,7 +314,7 @@
         });
 
         const data = await response.json();
-        
+
         if (response.ok) {
           showAlert(data.message || 'Expense created successfully', 'success');
           document.getElementById('addExpenseForm').reset();
@@ -288,7 +332,7 @@
     // Save edited expense
     document.getElementById('saveEditExpenseBtn').addEventListener('click', async function() {
       const name = document.getElementById('editExpenseName').value.trim();
-      
+
       if (!name) {
         showAlert('Please enter an expense name', 'warning');
         return;
@@ -302,7 +346,7 @@
         });
 
         const data = await response.json();
-        
+
         if (response.ok) {
           showAlert(data.message || 'Expense updated successfully', 'success');
           bootstrap.Modal.getInstance(document.getElementById('editExpenseModal')).hide();
@@ -327,7 +371,7 @@
         });
 
         const data = await response.json();
-        
+
         if (response.ok) {
           showAlert(data.message || 'Expense deleted successfully', 'success');
           bootstrap.Modal.getInstance(document.getElementById('deleteExpenseModal')).hide();

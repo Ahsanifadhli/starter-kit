@@ -4,27 +4,72 @@
 
 @section('content')
 
+<style>
+
+  .btn-orange {
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+    color: #fff;
+  }
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112;
+    border-color: #d66a10;
+    color: #fff;
+  }
+
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Mengubah warna teks dan border saat kondisi normal/hover */
+  .pagination .page-link {
+    color: #fd7e14; /* Teks angka menjadi oranye */
+  }
+
+  .pagination .page-link:hover {
+    color: #e37112; /* Teks sedikit lebih gelap saat di-hover */
+    background-color: #fff3e6; /* Latar belakang oranye sangat pudar saat hover */
+    border-color: #dee2e6; /* Mempertahankan border standar */
+  }
+
+  /* Mengubah warna latar dan border saat halaman aktif (terpilih) */
+  .pagination .page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+  }
+
+  /* Mengubah warna untuk tombol Prev/Next yang disable (opsional, agar serasi) */
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a; /* Oranye pudar */
+  }
+</style>
+
 <div class="card">
-  <div class="card-header d-flex flex-column flex-md-row align-items-center justify-content-between">
-    <div class="d-flex align-items-center gap-2 w-100">
-      <div class="me-2">
-        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addUserModal" id="openAddUserBtn">
-          <i class="ri-add-line me-1"></i> Add User
-        </button>
-      </div>
-      <div class="d-flex align-items-center ms-auto gap-2 w-100">
-        <input type="text" class="form-control" id="searchUserInput" placeholder="Search by name or username..." />
-        <select id="filterRole" class="form-select" style="max-width: 220px;">
-          <option value="">All Roles</option>
-          <option value="admin">Admin</option>
-          <option value="branch">Branch</option>
-        </select>
-      </div>
+  <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+
+    <div>
+      <button class="btn btn-orange text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#addUserModal" id="openAddUserBtn">
+        <i class="ri-add-line me-1"></i> Add User
+      </button>
+    </div>
+
+    <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2 w-100 justify-content-md-end">
+      <input type="search" class="form-control" id="searchUserInput" placeholder="Search by name or username..." style="max-width: 300px;" />
+      <select id="filterRole" class="form-select" style="max-width: 200px;">
+        <option value="">All Roles</option>
+        <option value="admin">Admin</option>
+        <option value="branch">Branch</option>
+      </select>
     </div>
   </div>
 
   <div class="table-responsive text-nowrap">
-    <table class="table table-hover">
+    <table class="table table-hover mb-0">
       <thead>
         <tr>
           <th>Name</th>
@@ -47,7 +92,6 @@
   </div>
 </div>
 
-<!-- Add / Edit User Modal -->
 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -60,39 +104,41 @@
           <input type="hidden" id="editingUserId" value="">
 
           <div class="mb-3">
-            <label class="form-label">Name <span class="text-danger">*</span></label>
+            <label for="userName" class="form-label">Name <span class="text-danger">*</span></label>
             <input type="text" id="userName" class="form-control" required />
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Username <span class="text-danger">*</span></label>
+            <label for="userUsername" class="form-label">Username <span class="text-danger">*</span></label>
             <input type="text" id="userUsername" class="form-control" required />
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Password <span id="passwordHint" class="text-muted">(required for new user, optional for edit)</span></label>
+            <label for="userPassword" class="form-label">
+              Password
+              <small id="passwordHint" class="text-muted fw-normal">(required for new user, optional for edit)</small>
+            </label>
             <input type="password" id="userPassword" class="form-control" minlength="8" />
           </div>
 
           <div class="mb-3" id="branchSelectContainer">
-            <label class="form-label">Role / Branch</label>
+            <label for="branchSelect" class="form-label">Role / Branch</label>
             <select id="branchSelect" class="form-select">
               <option value="">Admin</option>
             </select>
-            <div class="form-text">Choose "Admin" to create an admin, or select a branch to create branch user.</div>
+            <div class="form-text">Choose "Admin" to create an admin, or select a branch to create a branch user.</div>
           </div>
 
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="submitUserBtn">Save</button>
+        <button type="button" class="btn btn-orange" id="submitUserBtn">Save</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Delete confirmation -->
 <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
@@ -101,7 +147,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+        <p class="mb-0">Are you sure you want to delete this user? This action cannot be undone.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

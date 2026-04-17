@@ -3,7 +3,7 @@
 @endphp
 
 <!-- Footer -->
-<footer class="content-footer footer bg-footer-theme">
+<footer class="content-footer footer">
   <div class="{{ $containerFooter }}">
 
     <!-- Bagian Atas Footer (Info Utama) -->
@@ -29,7 +29,7 @@
         <div class="d-flex flex-wrap mt-4">
           <div class="me-sm-5 me-3 mb-3">
             <div class="d-flex align-items-center">
-              <i class='bx bxs-phone-call me-2 fs-4'></i>
+              <i class='bx bxs-phone-call  fs-4'></i>
               <div>
                 <strong class="d-block">Hallo Chief - Layanan Pelanggan</strong>
                 <span>+6281226332606</span>
@@ -58,7 +58,7 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
 
       {{-- Copyright (kiri) --}}
-      <span class="text-muted mb-2 mb-md-0">2025 Chiffon Krumpul Wonosari | v1.0.0</span>
+      <span class="text-muted mb-2 mb-md-0">2026 Chiffon Krumpul Wonosari | v2.0</span>
 
       {{-- Links (kanan) --}}
       <div>

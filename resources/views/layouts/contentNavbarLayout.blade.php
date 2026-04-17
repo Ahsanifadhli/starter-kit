@@ -83,9 +83,9 @@
             <!-- / Content -->
 
             <!-- Footer -->
-            @if ($isFooter)
+            {{-- @if ($isFooter) --}}
               @include('layouts/sections/footer/footer')
-            @endif
+            {{-- @endif --}}
             <!-- / Footer -->
             <div class="content-backdrop fade"></div>
           </div>
