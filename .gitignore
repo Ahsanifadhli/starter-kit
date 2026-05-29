@@ -1,6 +1,8 @@
 /.phpunit.cache
 /node_modules
 
+/.github
+.env
 /public/build
 /public/hot
 /public/storage
