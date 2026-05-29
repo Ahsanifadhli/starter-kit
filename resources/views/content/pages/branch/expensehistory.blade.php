@@ -1,5 +1,57 @@
 @extends('layouts.contentNavbarLayoutBranch')
+<style>
+  /* Kustomisasi warna oranye untuk tombol Solid */
+  .btn-orange {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    color: #ffffff !important;
+  }
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112 !important;
+    border-color: #d66a10 !important;
+    color: #ffffff !important;
+  }
 
+  /* Kustomisasi warna oranye untuk tombol Outline (Garis Luar) / Toggle Menu */
+  .btn-outline-orange {
+    color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    background-color: transparent !important;
+  }
+  .btn-outline-orange:hover,
+  .btn-outline-orange.active,
+  .btn-outline-orange:active,
+  .btn-outline-orange:focus {
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Kustomisasi warna untuk Pagination */
+  .pagination .page-link {
+    color: #fd7e14 !important;
+  }
+  .pagination .page-link:hover {
+    color: #e37112 !important;
+    background-color: #fff3e6 !important;
+    border-color: #dee2e6 !important;
+  }
+  .pagination .page-item.active .page-link {
+    z-index: 3 !important;
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a !important;
+  }
+</style>
 @section('title', 'Expense History')
 
 @section('content')
@@ -8,10 +60,10 @@
 
     <!-- ===== Action Bar ===== -->
     <div class="card-header d-flex flex-column flex-md-row align-items-center justify-content-between">
-      <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+      <button class="btn btn-orange" type="button" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
         <i class="ri-add-line me-1"></i> Add Single
       </button>
-      <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#bulkImportExpenseModal">
+      <button class="btn btn-orange btn-info" type="button" data-bs-toggle="modal" data-bs-target="#bulkImportExpenseModal">
         <i class="ri-upload-cloud-line me-1"></i> Bulk Import
       </button>
     </div>
@@ -105,7 +157,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="submitExpenseBtn">Submit</button>
+          <button type="button" class="btn btn-orange" id="submitExpenseBtn">Submit</button>
         </div>
       </div>
     </div>
@@ -151,7 +203,7 @@
             <i class="ri-download-line me-1"></i> Download Template
           </button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="submitBulkExpenseBtn">Submit</button>
+          <button type="button" class="btn btn-orange" id="submitBulkExpenseBtn">Submit</button>
         </div>
       </div>
     </div>
@@ -239,11 +291,11 @@
         const startDate = document.getElementById('expenseStartDate').value;
         const endDate = document.getElementById('expenseEndDate').value;
         const search = document.getElementById('searchExpenseHistory').value.trim();
-        
+
         if (startDate) url += `&date_from=${encodeURIComponent(startDate)}`;
         if (endDate) url += `&date_to=${encodeURIComponent(endDate)}`;
         if (search) url += `&search=${encodeURIComponent(search)}`;
-        
+
         const res = await fetch(url, { headers: authHeaders(), credentials: 'include' });
         if (!res.ok) throw new Error('Failed to fetch');
         const data = await res.json();
@@ -269,7 +321,7 @@
         const formattedDate = dateObj.toLocaleDateString('id-ID');
         const nominalDisplay = `Rp ${parseInt(h.nominal).toLocaleString('id-ID')}`;
         const description = h.description || '-';
-        
+
         row.innerHTML = `
           <td>${formattedDate}</td>
           <td><strong>${String(h.expense?.name || 'N/A').toUpperCase()}</strong></td>
@@ -278,7 +330,7 @@
           <td>${description}</td>
           <td>
             <div class="d-flex">
-              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#deleteExpenseModal" onclick="prepareDeleteExpense(${h.id})">
                 <i class="ri-delete-bin-line"></i>
               </a>
@@ -400,7 +452,7 @@
       data.forEach(item => {
         const row = document.createElement('tr');
         const nominalDisplay = `Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`;
-        
+
         row.innerHTML = `
           <td>${item.date}</td>
           <td>${item.expense_name.toUpperCase()}</td>
@@ -482,7 +534,7 @@
     document.getElementById('bulkExpenseFile').addEventListener('change', handleExpenseFilePreview);
     document.getElementById('submitBulkExpenseBtn').addEventListener('click', submitBulkExpense);
     document.getElementById('confirmDeleteExpenseBtn').addEventListener('click', confirmDeleteExpense);
-    
+
     // Date and search filter event listeners
     document.getElementById('expenseStartDate').addEventListener('change', () => fetchExpenseHistories(1));
     document.getElementById('expenseEndDate').addEventListener('change', () => fetchExpenseHistories(1));
@@ -496,8 +548,8 @@
 
     async function fetchExpensesForSelection(search = '') {
       try {
-        const url = search 
-          ? `${API_URL}/expenses?search=${encodeURIComponent(search)}` 
+        const url = search
+          ? `${API_URL}/expenses?search=${encodeURIComponent(search)}`
           : `${API_URL}/expenses`;
         const res = await fetch(url, { headers: authHeaders(), credentials: 'include' });
         const data = await res.json();

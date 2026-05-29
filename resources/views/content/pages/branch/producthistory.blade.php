@@ -1,5 +1,57 @@
 @extends('layouts.contentNavbarLayoutBranch')
+<style>
+  /* Kustomisasi warna oranye untuk tombol Solid */
+  .btn-orange {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    color: #ffffff !important;
+  }
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112 !important;
+    border-color: #d66a10 !important;
+    color: #ffffff !important;
+  }
 
+  /* Kustomisasi warna oranye untuk tombol Outline (Garis Luar) / Toggle Menu */
+  .btn-outline-orange {
+    color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    background-color: transparent !important;
+  }
+  .btn-outline-orange:hover,
+  .btn-outline-orange.active,
+  .btn-outline-orange:active,
+  .btn-outline-orange:focus {
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Kustomisasi warna untuk Pagination */
+  .pagination .page-link {
+    color: #fd7e14 !important;
+  }
+  .pagination .page-link:hover {
+    color: #e37112 !important;
+    background-color: #fff3e6 !important;
+    border-color: #dee2e6 !important;
+  }
+  .pagination .page-item.active .page-link {
+    z-index: 3 !important;
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a !important;
+  }
+</style>
 @section('title', 'Product History')
 
 @section('content')
@@ -8,10 +60,10 @@
 
     <!-- ===== Action Bar ===== -->
     <div class="card-header d-flex flex-column flex-md-row align-items-center justify-content-between">
-      <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addHistoryModal">
+      <button class="btn btn-orange" type="button" data-bs-toggle="modal" data-bs-target="#addHistoryModal">
         <i class="ri-add-line me-1"></i> Add Single
       </button>
-      <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#bulkImportModal">
+      <button class="btn btn-orange btn-info" type="button" data-bs-toggle="modal" data-bs-target="#bulkImportModal">
         <i class="ri-upload-cloud-line me-1"></i> Bulk Import
       </button>
     </div>
@@ -146,7 +198,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="submitSingleBtn">Submit</button>
+          <button type="button" class="btn btn-orange" id="submitSingleBtn">Submit</button>
         </div>
       </div>
     </div>
@@ -197,7 +249,7 @@
             <i class="ri-download-line me-1"></i> Download Template
           </button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="submitBulkBtn">Submit</button>
+          <button type="button" class="btn btn-orange" id="submitBulkBtn">Submit</button>
         </div>
       </div>
     </div>
@@ -287,11 +339,11 @@ let selectedSingleProductId = null;
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
         const search = document.getElementById('searchHistory').value.trim();
-        
+
         if (startDate) url += `&date_from=${encodeURIComponent(startDate)}`;
         if (endDate) url += `&date_to=${encodeURIComponent(endDate)}`;
         if (search) url += `&search=${encodeURIComponent(search)}`;
-        
+
         const res = await fetch(url, { headers: authHeaders() });
         if (!res.ok) throw new Error('Failed to fetch');
         const data = await res.json();
@@ -328,7 +380,7 @@ let selectedSingleProductId = null;
         const totalPriceDisplay = `Rp ${totalPrice.toLocaleString('id-ID')}`;
         // const discountPriceDisplay = h.discount_price ? `Rp ${parseInt(h.discount_price).toLocaleString('id-ID')}` : '-';
         const priceDisplay = h.product_price ? `Rp ${parseInt(h.product_price).toLocaleString('id-ID')}` : '-';
-        
+
         row.innerHTML = `
           <td>${formattedDate}</td>
           <td><strong>${String(h.product?.name || 'N/A').toUpperCase()}</strong></td>
@@ -338,10 +390,10 @@ let selectedSingleProductId = null;
           <td>${discountDisplay}</td>
           <td>${totalPriceDisplay}</td>
           <td><span class="badge bg-label-info">${String(h.transaction_type || '-').toUpperCase()}</span></td>
-          
+
           <td>
             <div class="d-flex">
-              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#deleteHistoryModal" onclick="prepareDelete(${h.id})">
                 <i class="ri-delete-bin-line"></i>
               </a>
@@ -388,7 +440,7 @@ let selectedSingleProductId = null;
       // const selectedOption = document.getElementById('singleProductSelect');
       // const productName = selectedOption.options[selectedOption.selectedIndex].text;
       const productName = document.getElementById('singleProductSearch').value;
-      
+
       if (!date || !qty || !type) {
         showAlert('Please fill all required fields', 'warning');
         return;
@@ -475,7 +527,7 @@ let selectedSingleProductId = null;
         const row = document.createElement('tr');
         const discountPercentDisplay = item.discount_percent ? `${item.discount_percent}%` : '-';
         const discountPriceDisplay = item.discount_price ? `Rp ${parseInt(item.discount_price).toLocaleString('id-ID')}` : '-';
-        
+
         row.innerHTML = `
           <td>${item.date}</td>
           <td>${item.product_name.toUpperCase()}</td>
@@ -557,7 +609,7 @@ let selectedSingleProductId = null;
     document.getElementById('bulkFile').addEventListener('change', handleFilePreview);
     document.getElementById('submitBulkBtn').addEventListener('click', submitBulk);
     document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDelete);
-    
+
     // Date and search filter event listeners
     document.getElementById('startDate').addEventListener('change', () => fetchHistories(1));
     document.getElementById('endDate').addEventListener('change', () => fetchHistories(1));
@@ -571,8 +623,8 @@ let selectedSingleProductId = null;
 
     // async function fetchBranchProductsForSelection(search = '') {
     //   try {
-    //     const url = search 
-    //       ? `${API_URL}/branch/products?search=${encodeURIComponent(search)}` 
+    //     const url = search
+    //       ? `${API_URL}/branch/products?search=${encodeURIComponent(search)}`
     //       : `${API_URL}/branch/products`;
     //     const res = await fetch(url, { headers: authHeaders() });
     //     const data = await res.json();

@@ -3,47 +3,50 @@
     {
       "url": "/branch",
       "name": "Dashboard",
-      "icon": "menu-icon tf-icons ri-home-smile-line",
-      "slug": "pages-home"
+      "icon": "menu-icon tf-icons ri-dashboard-line",
+      "slug": "branch.dashboard"
     },
 
     {
       "menuHeader": "Master Data"
     },
+
     {
       "url": "/branch/products",
       "name": "Produk Cabang",
-      "icon": "menu-icon tf-icons ri-store-2-line",
-      "slug": "branch.dashboard"
+      "icon": "menu-icon tf-icons ri-shopping-bag-3-line",
+      "slug": "branch.products"
     },
+
     {
       "menuHeader": "Transactions"
     },
+
     {
       "name": "Histori Transaksi",
-      "icon": "menu-icon tf-icons ri-store-2-line",
-      "slug": "branch.features",
+      "icon": "menu-icon tf-icons ri-wallet-3-line",
+      "slug": ["branch.transactions", "branch.export"],
       "submenu": [
         {
           "url": "/branch/history/products",
           "name": "Produk",
-          "icon": "menu-icon tf-icons ri-exchange-dollar-line",
+          "icon": "menu-icon tf-icons ri-shopping-bag-3-line",
           "slug": "branch.transactions"
         },
         {
           "url": "/branch/history/expenses",
           "name": "Pengeluaran",
-          "icon": "menu-icon tf-icons ri-file-export-line",
+          "icon": "menu-icon tf-icons ri-wallet-3-line",
           "slug": "branch.export"
         }
       ]
     },
 
     {
-      "url": "",
+      "url": "/branch/report",
       "name": "Export Laba Rugi",
-      "icon": "menu-icon tf-icons ri-bar-chart-2-line exportlabarugilogo",
-      "slug": "pages-home"
+      "icon": "menu-icon tf-icons ri-bar-chart-2-line",
+      "slug": "branch.report"
     }
   ]
 }

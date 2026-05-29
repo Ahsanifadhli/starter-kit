@@ -1,5 +1,57 @@
 @extends('layouts.contentNavbarLayoutBranch')
+<style>
+  /* Kustomisasi warna oranye untuk tombol Solid */
+  .btn-orange {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    color: #ffffff !important;
+  }
+  .btn-orange:hover,
+  .btn-orange:focus,
+  .btn-orange:active {
+    background-color: #e37112 !important;
+    border-color: #d66a10 !important;
+    color: #ffffff !important;
+  }
 
+  /* Kustomisasi warna oranye untuk tombol Outline (Garis Luar) / Toggle Menu */
+  .btn-outline-orange {
+    color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    background-color: transparent !important;
+  }
+  .btn-outline-orange:hover,
+  .btn-outline-orange.active,
+  .btn-outline-orange:active,
+  .btn-outline-orange:focus {
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+
+  .text-orange {
+    color: #fd7e14 !important;
+  }
+
+  /* Kustomisasi warna untuk Pagination */
+  .pagination .page-link {
+    color: #fd7e14 !important;
+  }
+  .pagination .page-link:hover {
+    color: #e37112 !important;
+    background-color: #fff3e6 !important;
+    border-color: #dee2e6 !important;
+  }
+  .pagination .page-item.active .page-link {
+    z-index: 3 !important;
+    color: #ffffff !important;
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+  }
+  .pagination .page-item.disabled .page-link {
+    color: #f7a96a !important;
+  }
+</style>
 {{-- Judul ini akan muncul di navbar atas Anda --}}
 @section('title', 'Branch Product Management')
 
@@ -15,7 +67,7 @@
       </div>
 
       {{-- Tombol Pemicu Modal "Add Product" --}}
-      <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addBranchProductModal">
+      <button class="btn btn-orange" type="button" data-bs-toggle="modal" data-bs-target="#addBranchProductModal">
         <i class="ri-add-line me-1"></i> Add Branch Product
       </button>
     </div>
@@ -85,7 +137,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveBranchProductBtn">Save</button>
+          <button type="button" class="btn btn-orange" id="saveBranchProductBtn">Save</button>
         </div>
       </div>
     </div>
@@ -121,7 +173,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveEditBranchProductBtn">Save Changes</button>
+          <button type="button" class="btn btn-orange" id="saveEditBranchProductBtn">Save Changes</button>
         </div>
       </div>
     </div>
@@ -187,7 +239,7 @@
         const search = document.getElementById('searchBranchProduct').value.trim();
         let url = `${API_URL}/branch/products?page=${page}`;
         if (search) url += `&search=${encodeURIComponent(search)}`;
-        
+
         const res = await fetch(url, { headers: authHeaders() });
         const data = await res.json();
         renderBranchProductTable(data.data);
@@ -214,11 +266,11 @@
           <td>${Number(bp.product?.price || 0).toLocaleString()}</td>
           <td>
             <div class="d-flex">
-              <a class="btn btn-sm btn-icon btn-outline-primary me-2" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-orange me-2" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#editBranchProductModal" onclick="loadEditBranchProduct(${bp.id})">
                 <i class="ri-pencil-line"></i>
               </a>
-              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);" 
+              <a class="btn btn-sm btn-icon btn-outline-danger" href="javascript:void(0);"
                  data-bs-toggle="modal" data-bs-target="#deleteBranchProductModal" onclick="prepareDeleteBranchProduct(${bp.id})">
                 <i class="ri-delete-bin-line"></i>
               </a>
@@ -254,8 +306,8 @@
     // Fetch products for dropdown in add modal
     async function fetchProductsForSelection(search = '') {
       try {
-        const url = search 
-          ? `${API_URL}/products?search=${encodeURIComponent(search)}` 
+        const url = search
+          ? `${API_URL}/products?search=${encodeURIComponent(search)}`
           : `${API_URL}/products`;
           console.log('Fetching products from URL:', url);
         const res = await fetch(url, { headers: authHeaders() });

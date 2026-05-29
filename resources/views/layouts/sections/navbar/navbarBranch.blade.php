@@ -73,7 +73,7 @@
           <!--/ Search -->
 
           <!-- TOMBOL NOTIFIKASI -->
-          
+
           <!--/ Notification -->
 
           <!-- LOGO PENGGUNA (KODE ASLI ANDA) -->
@@ -137,7 +137,7 @@
       event.preventDefault();
       const apiUrl = '{{ env("API_URL") }}';
       const token = getCookie('token');
-      
+
       if (!token) {
         // no token, just redirect to login
         window.location.href = '/login';
